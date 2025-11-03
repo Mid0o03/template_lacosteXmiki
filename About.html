@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - LACOSTE X MIKI</title>
+    <style>
+        
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --bg-gradient: linear-gradient(135deg, #f6ecff 0%, #ffe9f4 100%);
+            --surface: rgba(255, 255, 255, 0.65);
+            --surface-strong: rgba(255, 255, 255, 0.8);
+            --border: rgba(198, 167, 255, 0.4);
+            --primary: #d4b3ff;
+            --primary-dark: #a778ff;
+            --accent: #ffb9dc;
+            --text-main: #2f1c47;
+            --text-muted: #5a3f6b;
+            --nav-bg: #004526;
+        }
+
+        body{
+            background: var(--bg-gradient);
+            position: relative;
+            overflow-x: hidden;
+            font-family: 'Arial', sans-serif;
+            color: var(--text-main);
+        }
+        
+        #halftone-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+        }
+        
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--nav-bg);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar .logo img {
+            height: 40px;
+            width: auto;
+        }
+        
+        .navbar .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .navbar .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 300;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar .nav-links a:hover,
+        .navbar .nav-links a.active {
+            color: #ccc;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 5px;
+        }
+
+        .language-switcher {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-left: 20px;
+        }
+
+        .language-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            backdrop-filter: blur(10px);
+        }
+
+        .language-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .language-btn.active {
+            background: rgba(255, 255, 255, 0.9);
+            color: #004526;
+            border-color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .hero-section {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            text-align: center;
+            color: var(--text-main);
+            z-index: 10;
+            padding: 120px 50px 80px;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 20;
+            text-align: center;
+            width: 100%;
+            max-width: 1200px;
+        }
+        
+
+        
+        .section-title {
+            text-align: center;
+            font-size: 4rem;
+            font-weight: 700;
+            letter-spacing: 6px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            color: var(--text-main);
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 80px;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .about-content {
+            max-width: 900px;
+            margin: 0 auto 80px;
+            background: var(--surface);
+            backdrop-filter: blur(18px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 50px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 18px 40px rgba(67, 36, 99, 0.12);
+        }
+        
+        .story-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            margin: 80px 0;
+            align-items: center;
+        }
+        
+        .story-text {
+            background: var(--surface);
+            backdrop-filter: blur(18px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 18px 40px rgba(67, 36, 99, 0.12);
+        }
+        
+        .story-text::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05), transparent);
+            border-radius: 24px;
+            pointer-events: none;
+        }
+        
+        .story-text h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            margin-bottom: 25px;
+            color: var(--text-main);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .story-text p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .story-image {
+            background: linear-gradient(135deg, rgba(167, 120, 255, 0.88), rgba(255, 185, 220, 0.65));
+            border-radius: 24px;
+            padding: 12px 30px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 24px 48px rgba(67, 36, 99, 0.22);
+            min-height: 520px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .story-image::before {
+            content: '';
+            position: absolute;
+            inset: 1px;
+            border-radius: 22px;
+            background: var(--surface);
+            opacity: 0.88;
+        }
+        
+        .story-image img {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            height: auto;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 16px;
+            filter: brightness(0.92) contrast(1.05);
+        }
+        
+        .about-content::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05), transparent);
+            border-radius: 16px;
+            pointer-events: none;
+        }
+        
+        .about-content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .philosophy-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 80px;
+        }
+        
+        .philosophy-card {
+            background: var(--surface);
+            backdrop-filter: blur(18px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            box-shadow: 0 18px 40px rgba(67, 36, 99, 0.12);
+        }
+        
+        .philosophy-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.06), transparent);
+            border-radius: 24px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .philosophy-card:hover::before {
+            opacity: 1;
+        }
+        
+        .philosophy-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(67, 36, 99, 0.18);
+            border-color: var(--primary);
+        }
+        
+        .philosophy-card h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--text-main);
+            position: relative;
+            z-index: 2;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        .philosophy-card p {
+            opacity: 0.95;
+            line-height: 1.7;
+            position: relative;
+            z-index: 2;
+            font-size: 1rem;
+            font-weight: 300;
+            color: var(--text-muted);
+        }
+        
+        @media (max-width: 768px) {
+            .philosophy-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .story-section {
+                grid-template-columns: 1fr !important;
+                gap: 40px !important;
+            }
+            
+            .story-image {
+                min-height: auto;
+                padding: 10px 20px;
+            }
+            
+            .story-section[style*="direction: rtl"] {
+                direction: ltr !important;
+            }
+        }        /* Footer Styles */
+        .footer {
+            background: linear-gradient(135deg, #e6d4ff 0%, #ffd7ed 100%);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.35);
+            color: var(--text-main);
+            padding: 80px 0 0;
+            margin-top: 100px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 50px;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr;
+            gap: 60px;
+        }
+        
+        .footer-section h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            color: var(--text-main);
+        }
+        
+        .footer-section h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 25px;
+            color: var(--text-main);
+            text-transform: uppercase;
+        }
+        
+        .footer-section p {
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-section ul li a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+        
+        .footer-section ul li a:hover {
+            color: var(--text-main);
+            padding-left: 5px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: var(--text-main);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+        
+        .social-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .newsletter-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .newsletter-form input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 12px 16px;
+            color: var(--text-main);
+            font-size: 0.95rem;
+        }
+        
+        .newsletter-form input::placeholder {
+            color: var(--text-muted);
+        }
+        
+        .newsletter-form input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .newsletter-form button {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 12px 20px;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .newsletter-form button:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.35);
+            margin-top: 60px;
+            padding: 30px 0;
+        }
+        
+        .footer-bottom-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--text-main);
+        }
+        
+        .footer-copyright p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 1024px) {
+            .footer-content {
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 40px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                padding: 0 30px;
+            }
+            
+            .footer-bottom-content {
+                flex-direction: column;
+                text-align: center;
+                padding: 0 30px;
+            }
+            
+            .footer-links {
+                justify-content: center;
+            }
+        }
+
+    </style>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="halftone-canvas"></canvas>
+    
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="images/LOGO x MIKI CLASSIQUE blanc.png" alt="LACOSTE X MIKI">
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="Collection.html">Collection</a>
+            <a href="About.html" class="active">About</a>
+            <a href="Contact.html">Contact</a>
+            <a href="Panier.html">Cart (<span id="cart-count">0</span>)</a>
+        </div>
+        <div class="language-switcher">
+            <button class="language-btn active" onclick="switchLanguage('fr')">FR</button>
+            <button class="language-btn" onclick="switchLanguage('en')">EN</button>
+        </div>
+    </nav>
+    
+    <!-- About Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h2 class="section-title" data-i18n="about.title" data-i18n-fr="À propos">About</h2>
+            <div class="about-content">
+                <p style="font-size: 1.3rem; line-height: 1.8; margin-bottom: 40px; text-align: center; font-weight: 300;" data-i18n="about.intro" data-i18n-fr="Née de la rencontre entre LACOSTE et Miki, chanteuse franco-coréenne, la collection Graou explore un dialogue entre pop électronique et savoir-faire textile. Cette collaboration audacieuse fait vibrer l'héritage sportif avec l'énergie créative d'une artiste qui défie les codes de la scène musicale et de la mode.">Born from the encounter between LACOSTE and French-Korean singer Miki, the Graou collection explores a dialogue between electronic pop and textile craftsmanship. This bold collaboration pulses with the brand's sporting heritage while embracing the creative energy of an artist who reshapes both the music and fashion scenes.</p>
+                
+                <div class="story-section" style="grid-template-columns: 1fr 1fr; direction: rtl;">
+                    <div class="story-text" style="direction: ltr;">
+                        <h3 data-i18n="about.miki.title" data-i18n-fr="MIKI">MIKI</h3>
+                        <p data-i18n="about.miki.paragraph" data-i18n-fr="Miki, nom de scène de Mikaela Helena Duplay, est une autrice-compositrice-interprète franco-coréenne née le 6 novembre 1998 à Nice. Sa musique, qu'elle produit elle-même et qu'elle qualifie de « pop électronique », mêle rap et électro dans un style donnant une apparence de naïveté.">Miki, the stage name of Mikaela Helena Duplay, is a French-Korean singer-songwriter born on November 6, 1998 in Nice. She self-produces her music, describes it as “electronic pop,” and blends rap with electro in a style that embraces a playful sense of naivety.</p>
+                    </div>
+                    <div class="story-image" style="direction: ltr;">
+                        <img src="images/Polaroid-MIKI.png" alt="Miki">
+                    </div>
+                </div>
+                
+                <div class="story-section">
+                    <div class="story-text">
+                        <h3 data-i18n="about.heritage.title" data-i18n-fr="L'HÉRITAGE">HERITAGE</h3>
+                        <p data-i18n="about.heritage.paragraph1" data-i18n-fr="LACOSTE, fondée en 1933 par René Lacoste, incarne l'élégance sportive française depuis près d'un siècle. La marque au crocodile a toujours été synonyme d'innovation et de style intemporel.">Founded in 1933 by René Lacoste, LACOSTE has embodied French sporting elegance for nearly a century. The crocodile has always stood for innovation and timeless style.</p>
+                        <p data-i18n="about.heritage.paragraph2" data-i18n-fr="Cette collaboration avec MIKI marque une nouvelle ère où tradition et modernité se rencontrent pour créer quelque chose d'extraordinaire.">This collaboration with MIKI ushers in a new era where tradition and modernity meet to create something extraordinary.</p>
+                    </div>
+                    <div class="story-image">
+                        <img src="images/Polaroid-logo.png" alt="Heritage">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="philosophy-grid">
+                <div class="philosophy-card">
+                    <h3 data-i18n="about.values.innovation" data-i18n-fr="Innovation">Innovation</h3>
+                    <p data-i18n="about.values.innovationText" data-i18n-fr="Nous repoussons constamment les limites du design en intégrant des technologies textiles révolutionnaires et des coupes avant-gardistes.">We continually push design boundaries by integrating revolutionary textile technologies and forward-thinking silhouettes.</p>
+                </div>
+                <div class="philosophy-card">
+                    <h3 data-i18n="about.values.quality" data-i18n-fr="Qualité">Quality</h3>
+                    <p data-i18n="about.values.qualityText" data-i18n-fr="Chaque vêtement est confectionné dans nos ateliers avec les matériaux les plus fins et un savoir-faire transmis de génération en génération.">Each garment is crafted in our ateliers with the finest materials and savoir-faire passed down through generations.</p>
+                </div>
+                <div class="philosophy-card">
+                    <h3 data-i18n="about.values.durability" data-i18n-fr="Durabilité">Durability</h3>
+                    <p data-i18n="about.values.durabilityText" data-i18n-fr="Nous nous engageons pour une mode circulaire et responsable, en utilisant des matières recyclées et des procédés de production éthiques.">We champion circular, responsible fashion by using recycled materials and ethical production processes.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>LACOSTE X MIKI</h3>
+                <p data-i18n="footer.about">Exclusive Graou collection blending Lacoste heritage with Miki's contemporary creativity.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Instagram">📷</a>
+                    <a href="#" aria-label="Facebook">📘</a>
+                    <a href="#" aria-label="Twitter">🐦</a>
+                    <a href="#" aria-label="YouTube">📺</a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h4 data-i18n="footer.products.title">Products</h4>
+                <ul>
+                    <li><a href="#" data-i18n="footer.products.new">New Collection</a></li>
+                    <li><a href="#" data-i18n="footer.products.men">Men</a></li>
+                    <li><a href="#" data-i18n="footer.products.women">Women</a></li>
+                    <li><a href="#" data-i18n="footer.products.kids">Kids</a></li>
+                    <li><a href="#" data-i18n="footer.products.accessories">Accessories</a></li>
+                    <li><a href="#" data-i18n="footer.products.footwear">Footwear</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4 data-i18n="footer.services.title">Services</h4>
+                <ul>
+                    <li><a href="#" data-i18n="footer.services.shipping">Shipping</a></li>
+                    <li><a href="#" data-i18n="footer.services.returns">Returns & Exchanges</a></li>
+                    <li><a href="#" data-i18n="footer.services.sizeGuide">Size Guide</a></li>
+                    <li><a href="#" data-i18n="footer.services.care">Product Care</a></li>
+                    <li><a href="#" data-i18n="footer.services.support">Customer Service</a></li>
+                    <li><a href="#" data-i18n="footer.services.stores">Stores</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4 data-i18n="footer.company.title">About</h4>
+                <ul>
+                    <li><a href="#" data-i18n="footer.company.story">Our Story</a></li>
+                    <li><a href="#" data-i18n="footer.company.sustainability">Sustainability</a></li>
+                    <li><a href="#" data-i18n="footer.company.careers">Careers</a></li>
+                    <li><a href="#" data-i18n="footer.company.press">Press</a></li>
+                    <li><a href="#" data-i18n="footer.company.partnerships">Partnerships</a></li>
+                    <li><a href="#" data-i18n="footer.company.loyalty">Loyalty Program</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4 data-i18n="footer.newsletter.title">Newsletter</h4>
+                <p data-i18n="footer.newsletter.copy">Stay informed about our latest releases and exclusive offers.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Your email address" data-i18n="footer.newsletter.placeholder" data-i18n-attr="placeholder" required>
+                    <button type="submit" data-i18n="footer.newsletter.cta">Subscribe</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="footer-bottom-content">
+                <div class="footer-links">
+                    <a href="#" data-i18n="footer.legal.terms">Terms & Conditions</a>
+                    <a href="#" data-i18n="footer.legal.privacy">Privacy Policy</a>
+                    <a href="#" data-i18n="footer.legal.cookies">Cookies</a>
+                    <a href="#" data-i18n="footer.legal.notice">Legal Notice</a>
+                </div>
+                <div class="footer-copyright">
+                    <p>&copy; 2025 LACOSTE X MIKI. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="i18n.js"></script>
+    <script>
+        class HalftonePattern {
+            constructor(canvasId, options = {}) {
+                this.canvas = document.getElementById(canvasId);
+                this.ctx = this.canvas.getContext('2d');
+                
+                // Default settings
+                this.settings = {
+                    dotSize: 8,
+                    spacing: 12,
+                    animationSpeed: 0.02,
+                    animationEffect: 'wave', // 'wave', 'pulse', 'spiral'
+                    dotShape: 'circle', // 'circle', 'square'
+                    baseColor: '#d9c9ff',
+                    backgroundColor: '#f6ecff',
+                    ...options
+                };
+                
+                this.time = 0;
+                this.setupCanvas();
+                this.animate();
+            }
+            
+            setupCanvas() {
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+                
+                // Handle resize
+                window.addEventListener('resize', () => {
+                    this.canvas.width = window.innerWidth;
+                    this.canvas.height = window.innerHeight;
+                });
+            }
+            
+            updateSettings(newSettings) {
+                this.settings = { ...this.settings, ...newSettings };
+            }
+            
+            drawDot(x, y, size, alpha) {
+                this.ctx.save();
+                this.ctx.globalAlpha = alpha;
+                this.ctx.fillStyle = this.settings.baseColor;
+                
+                if (this.settings.dotShape === 'circle') {
+                    this.ctx.beginPath();
+                    this.ctx.arc(x, y, size / 2, 0, Math.PI * 2);
+                    this.ctx.fill();
+                } else if (this.settings.dotShape === 'square') {
+                    this.ctx.fillRect(x - size / 2, y - size / 2, size, size);
+                }
+                
+                this.ctx.restore();
+            }
+            
+            calculateDotSize(x, y) {
+                const centerX = this.canvas.width / 2;
+                const centerY = this.canvas.height / 2;
+                
+                let size = this.settings.dotSize;
+                let alpha = 0.8;
+                
+                switch (this.settings.animationEffect) {
+                    case 'wave':
+                        const waveX = Math.sin((x + this.time * 100) * 0.01) * 3;
+                        const waveY = Math.sin((y + this.time * 100) * 0.01) * 3;
+                        size += waveX + waveY;
+                        alpha = 0.5 + Math.sin(this.time * 2 + x * 0.01) * 0.3;
+                        break;
+                        
+                    case 'pulse':
+                        const distance = Math.sqrt((x - centerX) ** 2 + (y - centerY) ** 2);
+                        const pulse = Math.sin(this.time * 3 - distance * 0.01) * 2;
+                        size += pulse;
+                        alpha = 0.4 + Math.sin(this.time * 2 - distance * 0.005) * 0.4;
+                        break;
+                        
+                    case 'spiral':
+                        const spiralDistance = Math.sqrt((x - centerX) ** 2 + (y - centerY) ** 2);
+                        const angle = Math.atan2(y - centerY, x - centerX);
+                        const spiral = Math.sin(angle * 3 + this.time * 2 - spiralDistance * 0.01) * 3;
+                        size += spiral;
+                        alpha = 0.4 + Math.sin(angle * 2 + this.time * 1.5 - spiralDistance * 0.005) * 0.4;
+                        break;
+                }
+                
+                return { size: Math.max(1, size), alpha: Math.max(0.1, Math.min(1, alpha)) };
+            }
+            
+            render() {
+                // Clear canvas
+                this.ctx.fillStyle = this.settings.backgroundColor;
+                this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+                
+                // Draw halftone pattern
+                for (let x = 0; x < this.canvas.width; x += this.settings.spacing) {
+                    for (let y = 0; y < this.canvas.height; y += this.settings.spacing) {
+                        const { size, alpha } = this.calculateDotSize(x, y);
+                        this.drawDot(x, y, size, alpha);
+                    }
+                }
+            }
+            
+            animate() {
+                this.time += this.settings.animationSpeed;
+                this.render();
+                requestAnimationFrame(() => this.animate());
+            }
+        }
+        
+        // Initialize the halftone pattern
+        let pattern;
+        window.addEventListener('DOMContentLoaded', () => {
+            pattern = new HalftonePattern('halftone-canvas', {
+                dotSize: 6,
+                spacing: 15,
+                animationSpeed: 0.015,
+                animationEffect: 'wave',
+                baseColor: '#d9c9ff',
+                backgroundColor: '#f6ecff'
+            });
+        });
+        
+        // Mettre à jour le compteur de panier
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+            const cartCount = document.getElementById('cart-count');
+            if (cartCount) {
+                cartCount.textContent = totalItems;
+            }
+        }
+        
+        // Initialiser le compteur au chargement de la page
+        updateCartCount();
+
+        initI18n({
+            en: {
+                "page.title": "About - LACOSTE X MIKI",
+                "about.title": "About",
+                "about.intro": "Born from the encounter between LACOSTE and French-Korean singer Miki, the Graou collection explores a dialogue between electronic pop and textile craftsmanship. This bold collaboration pulses with the brand's sporting heritage while embracing the creative energy of an artist who reshapes both the music and fashion scenes.",
+                "about.heritage.title": "HERITAGE",
+                "about.heritage.paragraph1": "Founded in 1933 by René Lacoste, LACOSTE has embodied French sporting elegance for nearly a century. The crocodile has always stood for innovation and timeless style.",
+                "about.heritage.paragraph2": "This collaboration with MIKI ushers in a new era where tradition and modernity meet to create something extraordinary.",
+                "about.miki.title": "MIKI",
+                "about.miki.paragraph": "Miki, the stage name of Mikaela Helena Duplay, is a French-Korean singer-songwriter born on November 6, 1998 in Nice. She self-produces her music, describes it as “electronic pop,” and blends rap with electro in a style that embraces a playful sense of naivety.",
+                "about.values.innovation": "Innovation",
+                "about.values.innovationText": "We continually push design boundaries by integrating revolutionary textile technologies and forward-thinking silhouettes.",
+                "about.values.quality": "Quality",
+                "about.values.qualityText": "Each garment is crafted in our ateliers with the finest materials and savoir-faire passed down through generations.",
+                "about.values.durability": "Durability",
+                "about.values.durabilityText": "We champion circular, responsible fashion by using recycled materials and ethical production processes."
+            },
+            fr: {
+                "page.title": "À propos - LACOSTE X MIKI",
+                "about.title": "À propos",
+                "about.intro": "Née de la rencontre entre LACOSTE et Miki, chanteuse franco-coréenne, la collection Graou explore un dialogue entre pop électronique et savoir-faire textile. Cette collaboration audacieuse fait vibrer l'héritage sportif avec l'énergie créative d'une artiste qui défie les codes de la scène musicale et de la mode.",
+                "about.heritage.title": "L'HÉRITAGE",
+                "about.heritage.paragraph1": "LACOSTE, fondée en 1933 par René Lacoste, incarne l'élégance sportive française depuis près d'un siècle. La marque au crocodile a toujours été synonyme d'innovation et de style intemporel.",
+                "about.heritage.paragraph2": "Cette collaboration avec MIKI marque une nouvelle ère où tradition et modernité se rencontrent pour créer quelque chose d'extraordinaire.",
+                "about.miki.title": "MIKI",
+                "about.miki.paragraph": "Miki, nom de scène de Mikaela Helena Duplay, est une autrice-compositrice-interprète franco-coréenne née le 6 novembre 1998 à Nice. Sa musique, qu'elle produit elle-même et qu'elle qualifie de « pop électronique », mêle rap et électro dans un style donnant une apparence de naïveté.",
+                "about.values.innovation": "Innovation",
+                "about.values.innovationText": "Nous repoussons constamment les limites du design en intégrant des technologies textiles révolutionnaires et des coupes avant-gardistes.",
+                "about.values.quality": "Qualité",
+                "about.values.qualityText": "Chaque vêtement est confectionné dans nos ateliers avec les matériaux les plus fins et un savoir-faire transmis de génération en génération.",
+                "about.values.durability": "Durabilité",
+                "about.values.durabilityText": "Nous nous engageons pour une mode circulaire et responsable, en utilisant des matières recyclées et des procédés de production éthiques."
+            }
+        }, { defaultLanguage: 'en' });
+
+    </script>
+    
+</body>
+</html>

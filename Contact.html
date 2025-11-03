@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - LACOSTE X MIKI</title>
+    <style>
+        
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --bg-gradient: linear-gradient(135deg, #f6ecff 0%, #ffe9f4 100%);
+            --surface: rgba(255, 255, 255, 0.65);
+            --surface-strong: rgba(255, 255, 255, 0.8);
+            --border: rgba(198, 167, 255, 0.4);
+            --primary: #d4b3ff;
+            --primary-dark: #a778ff;
+            --accent: #ffb9dc;
+            --text-main: #2f1c47;
+            --text-muted: #5a3f6b;
+            --nav-bg: #004526;
+        }
+
+        body{
+            background: var(--bg-gradient);
+            position: relative;
+            overflow-x: hidden;
+            font-family: 'Arial', sans-serif;
+            color: var(--text-main);
+        }
+        
+        #halftone-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+        }
+        
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--nav-bg);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar .logo img {
+            height: 40px;
+            width: auto;
+        }
+        
+        .navbar .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .navbar .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 300;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar .nav-links a:hover,
+        .navbar .nav-links a.active {
+            color: #ccc;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 5px;
+        }
+
+        .language-switcher {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-left: 20px;
+        }
+
+        .language-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            backdrop-filter: blur(10px);
+        }
+
+        .language-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .language-btn.active {
+            background: rgba(255, 255, 255, 0.9);
+            color: #004526;
+            border-color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .hero-section {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--text-main);
+            z-index: 10;
+            padding: 120px 50px 80px;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 20;
+            text-align: center;
+            width: 100%;
+            max-width: 1200px;
+        }
+        
+
+        
+        .section-title {
+            text-align: center;
+            font-size: 4rem;
+            font-weight: 700;
+            letter-spacing: 6px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            color: var(--text-main);
+            position: relative;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 60px;
+            opacity: 0.8;
+            color: var(--text-main);
+        }
+        
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+            align-items: start;
+        }
+        
+        .contact-info {
+            background: var(--surface);
+            backdrop-filter: blur(18px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 50px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 45px rgba(67, 36, 99, 0.12);
+        }
+        
+        .contact-info::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05), transparent);
+            border-radius: 24px;
+            pointer-events: none;
+        }
+        
+        .contact-info h3 {
+            font-size: 2rem;
+            font-weight: 300;
+            letter-spacing: 3px;
+            margin-bottom: 30px;
+            color: var(--text-main);
+            position: relative;
+            z-index: 2;
+            text-transform: uppercase;
+        }
+        
+        .contact-details {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .contact-item {
+            margin-bottom: 30px;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .contact-item:last-child {
+            border-bottom: none;
+        }
+        
+        .contact-item h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        
+        .contact-item p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+        }
+        
+        .office-hours {
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 16px;
+            padding: 25px;
+            margin-top: 30px;
+            position: relative;
+            z-index: 2;
+            border: 1px solid var(--border);
+        }
+        
+        .office-hours h4 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--text-main);
+            letter-spacing: 1px;
+        }
+        
+        .hours-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .hour-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+        
+        .contact-form {
+            display: grid;
+            gap: 30px;
+            background: var(--surface);
+            backdrop-filter: blur(18px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 50px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 45px rgba(67, 36, 99, 0.12);
+        }
+        
+        .contact-form::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05), transparent);
+            border-radius: 24px;
+            pointer-events: none;
+        }
+        
+        .form-title {
+            font-size: 2rem;
+            font-weight: 300;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            color: var(--text-main);
+            position: relative;
+            z-index: 2;
+            text-transform: uppercase;
+            text-align: center;
+        }
+        
+        .form-subtitle {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            line-height: 1.6;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .form-group label {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            color: var(--text-main);
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(18px);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 18px 24px;
+            color: var(--text-main);
+            font-size: 16px;
+            transition: all 0.4s ease;
+            font-family: inherit;
+        }
+        
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(95, 65, 125, 0.55);
+            font-weight: 300;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.95);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(164, 126, 229, 0.2);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .submit-button {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            backdrop-filter: blur(20px);
+            border: none;
+            border-radius: 16px;
+            padding: 18px 40px;
+            color: var(--text-main);
+            font-size: 16px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            z-index: 2;
+            overflow: hidden;
+            box-shadow: 0 14px 32px rgba(164, 126, 229, 0.25);
+        }
+        
+        .submit-button::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+            border-radius: 16px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .submit-button:hover::before {
+            opacity: 1;
+        }
+        
+        .submit-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 36px rgba(164, 126, 229, 0.35);
+        }
+        
+        @media (max-width: 768px) {
+            .contact-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .contact-info,
+            .contact-form {
+                padding: 30px;
+            }
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        .submit-btn {
+            position: relative;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: var(--text-main);
+            padding: 15px 40px;
+            font-size: 16px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            justify-self: center;
+            width: fit-content;
+            z-index: 2;
+        }
+        
+        .submit-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+        
+        /* Footer Styles */
+        .footer {
+            background: linear-gradient(135deg, #e6d4ff 0%, #ffd7ed 100%);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.35);
+            color: var(--text-main);
+            padding: 80px 0 0;
+            margin-top: 100px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 50px;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr;
+            gap: 60px;
+        }
+        
+        .footer-section h3 {
+            font-size: 1.5rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            color: var(--text-main);
+        }
+        
+        .footer-section h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 25px;
+            color: var(--text-main);
+            text-transform: uppercase;
+        }
+        
+        .footer-section p {
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-section ul li a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+        
+        .footer-section ul li a:hover {
+            color: var(--text-main);
+            padding-left: 5px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: var(--text-main);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+        
+        .social-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .newsletter-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .newsletter-form input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 12px 16px;
+            color: var(--text-main);
+            font-size: 0.95rem;
+        }
+        
+        .newsletter-form input::placeholder {
+            color: var(--text-muted);
+        }
+        
+        .newsletter-form input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .newsletter-form button {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 12px 20px;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .newsletter-form button:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.35);
+            margin-top: 60px;
+            padding: 30px 0;
+        }
+        
+        .footer-bottom-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--text-main);
+        }
+        
+        .footer-copyright p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 1024px) {
+            .footer-content {
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 40px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                padding: 0 30px;
+            }
+            
+            .footer-bottom-content {
+                flex-direction: column;
+                text-align: center;
+                padding: 0 30px;
+            }
+            
+            .footer-links {
+                justify-content: center;
+            }
+        }
+
+    </style>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="halftone-canvas"></canvas>
+    
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="images/LOGO x MIKI CLASSIQUE blanc.png" alt="LACOSTE X MIKI">
+        </div>
+        <div class="nav-links">
+            <a href="index.html" data-i18n="nav.home">Home</a>
+            <a href="Collection.html" data-i18n="nav.collection">Collection</a>
+            <a href="About.html" data-i18n="nav.about">About</a>
+            <a href="Contact.html" class="active" data-i18n="nav.contact">Contact</a>
+            <a href="Panier.html"><span class="nav-cart-label" data-i18n="nav.cart">Cart</span> (<span id="cart-count">0</span>)</a>
+        </div>
+        <div class="language-switcher">
+            <button class="language-btn active" onclick="switchLanguage('fr')">FR</button>
+            <button class="language-btn" onclick="switchLanguage('en')">EN</button>
+        </div>
+    </nav>
+    
+    <!-- Contact Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h2 class="section-title">Contact</h2>
+            <p class="section-subtitle">Get in touch with the Grau team</p>
+            
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3>Contact Information</h3>
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <h4>Address</h4>
+                            <p>26 Rue Vivienne<br>75002 Paris, France</p>
+                        </div>
+                        <div class="contact-item">
+                            <h4>Phone</h4>
+                            <p>+33 1 40 09 55 55</p>
+                        </div>
+                        <div class="contact-item">
+                            <h4>Email</h4>
+                            <p>contact@lacoste-miki.com<br>presse@lacoste-miki.com</p>
+                        </div>
+                        <div class="contact-item">
+                            <h4>Social Media</h4>
+                            <p>@LacosteMiki<br>@GrauCollection</p>
+                        </div>
+                    </div>
+                    
+                    <div class="office-hours">
+                        <h4>Opening Hours</h4>
+                        <div class="hours-list">
+                            <div class="hour-item">
+                                <span>Monday - Friday</span>
+                                <span>9h00 - 19h00</span>
+                            </div>
+                            <div class="hour-item">
+                                <span>Saturday</span>
+                                <span>10h00 - 18h00</span>
+                            </div>
+                            <div class="hour-item">
+                                <span>Sunday</span>
+                                <span>Closed</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <form class="contact-form" id="contactForm">
+                    <h3 class="form-title">Send us a message</h3>
+                    <p class="form-subtitle">Explore our exclusive collection or request a bespoke service. Our team replies within 24 hours.</p>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">First name</label>
+                            <input type="text" id="firstName" name="firstName" placeholder="Your first name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last name</label>
+                            <input type="text" id="lastName" name="lastName" placeholder="Your last name" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone</label>
+                            <input type="tel" id="phone" name="phone" placeholder="+33 6 00 00 00 00">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" name="subject" placeholder="Subject of your request" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="6" placeholder="Describe your request in detail. Feel free to mention style preferences, sizing or any specific questions..." required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-button">Send message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>LACOSTE X MIKI</h3>
+                <p>Exclusive Graou collection blending Lacoste heritage with Miki's contemporary creativity.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Instagram">📷</a>
+                    <a href="#" aria-label="Facebook">📘</a>
+                    <a href="#" aria-label="Twitter">🐦</a>
+                    <a href="#" aria-label="YouTube">📺</a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Products</h4>
+                <ul>
+                    <li><a href="#">New Collection</a></li>
+                    <li><a href="#">Men</a></li>
+                    <li><a href="#">Women</a></li>
+                    <li><a href="#">Kids</a></li>
+                    <li><a href="#">Accessories</a></li>
+                    <li><a href="#">Footwear</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="#">Shipping</a></li>
+                    <li><a href="#">Returns & Exchanges</a></li>
+                    <li><a href="#">Size Guide</a></li>
+                    <li><a href="#">Product Care</a></li>
+                    <li><a href="#">Customer Service</a></li>
+                    <li><a href="#">Stores</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>About</h4>
+                <ul>
+                    <li><a href="#">Our Story</a></li>
+                    <li><a href="#">Sustainability</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Press</a></li>
+                    <li><a href="#">Partnerships</a></li>
+                    <li><a href="#">Loyalty Program</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Newsletter</h4>
+                <p>Stay informed about our latest releases and exclusive offers.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Your email address" required>
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="footer-bottom-content">
+                <div class="footer-links">
+                    <a href="#">Terms & Conditions</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Cookies</a>
+                    <a href="#">Legal Notice</a>
+                </div>
+                <div class="footer-copyright">
+                    <p>&copy; 2025 LACOSTE X MIKI. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        class HalftonePattern {
+            constructor(canvasId, options = {}) {
+                this.canvas = document.getElementById(canvasId);
+                this.ctx = this.canvas.getContext('2d');
+                
+                // Default settings
+                this.settings = {
+                    dotSize: 8,
+                    spacing: 12,
+                    animationSpeed: 0.02,
+                    animationEffect: 'wave', // 'wave', 'pulse', 'spiral'
+                    dotShape: 'circle', // 'circle', 'square'
+                    baseColor: '#d9c9ff',
+                    backgroundColor: '#f6ecff',
+                    ...options
+                };
+                
+                this.time = 0;
+                this.setupCanvas();
+                this.animate();
+            }
+            
+            setupCanvas() {
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+                
+                // Handle resize
+                window.addEventListener('resize', () => {
+                    this.canvas.width = window.innerWidth;
+                    this.canvas.height = window.innerHeight;
+                });
+            }
+            
+            updateSettings(newSettings) {
+                this.settings = { ...this.settings, ...newSettings };
+            }
+            
+            drawDot(x, y, size, alpha) {
+                this.ctx.save();
+                this.ctx.globalAlpha = alpha;
+                this.ctx.fillStyle = this.settings.baseColor;
+                
+                if (this.settings.dotShape === 'circle') {
+                    this.ctx.beginPath();
+                    this.ctx.arc(x, y, size / 2, 0, Math.PI * 2);
+                    this.ctx.fill();
+                } else if (this.settings.dotShape === 'square') {
+                    this.ctx.fillRect(x - size / 2, y - size / 2, size, size);
+                }
+                
+                this.ctx.restore();
+            }
+            
+            calculateDotSize(x, y) {
+                const centerX = this.canvas.width / 2;
+                const centerY = this.canvas.height / 2;
+                
+                let size = this.settings.dotSize;
+                let alpha = 0.8;
+                
+                switch (this.settings.animationEffect) {
+                    case 'wave':
+                        const waveX = Math.sin((x + this.time * 100) * 0.01) * 3;
+                        const waveY = Math.sin((y + this.time * 100) * 0.01) * 3;
+                        size += waveX + waveY;
+                        alpha = 0.5 + Math.sin(this.time * 2 + x * 0.01) * 0.3;
+                        break;
+                        
+                    case 'pulse':
+                        const distance = Math.sqrt((x - centerX) ** 2 + (y - centerY) ** 2);
+                        const pulse = Math.sin(this.time * 3 - distance * 0.01) * 2;
+                        size += pulse;
+                        alpha = 0.4 + Math.sin(this.time * 2 - distance * 0.005) * 0.4;
+                        break;
+                        
+                    case 'spiral':
+                        const spiralDistance = Math.sqrt((x - centerX) ** 2 + (y - centerY) ** 2);
+                        const angle = Math.atan2(y - centerY, x - centerX);
+                        const spiral = Math.sin(angle * 3 + this.time * 2 - spiralDistance * 0.01) * 3;
+                        size += spiral;
+                        alpha = 0.4 + Math.sin(angle * 2 + this.time * 1.5 - spiralDistance * 0.005) * 0.4;
+                        break;
+                }
+                
+                return { size: Math.max(1, size), alpha: Math.max(0.1, Math.min(1, alpha)) };
+            }
+            
+            render() {
+                // Clear canvas
+                this.ctx.fillStyle = this.settings.backgroundColor;
+                this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+                
+                // Draw halftone pattern
+                for (let x = 0; x < this.canvas.width; x += this.settings.spacing) {
+                    for (let y = 0; y < this.canvas.height; y += this.settings.spacing) {
+                        const { size, alpha } = this.calculateDotSize(x, y);
+                        this.drawDot(x, y, size, alpha);
+                    }
+                }
+            }
+            
+            animate() {
+                this.time += this.settings.animationSpeed;
+                this.render();
+                requestAnimationFrame(() => this.animate());
+            }
+        }
+        
+        // Initialize the halftone pattern
+        let pattern;
+        window.addEventListener('DOMContentLoaded', () => {
+            pattern = new HalftonePattern('halftone-canvas', {
+                dotSize: 6,
+                spacing: 15,
+                animationSpeed: 0.015,
+                animationEffect: 'wave',
+                baseColor: '#d9c9ff',
+                backgroundColor: '#f6ecff'
+            });
+        });
+        
+        // Form submission
+        document.addEventListener('DOMContentLoaded', () => {
+            const contactForm = document.getElementById('contactForm');
+            if (contactForm) {
+                contactForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    alert('Thank you for your message! We will get back to you soon.');
+                    contactForm.reset();
+                });
+            }
+        });
+        
+        // Mettre à jour le compteur de panier
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+            const cartCount = document.getElementById('cart-count');
+            if (cartCount) {
+                cartCount.textContent = totalItems;
+            }
+        }
+        
+        // Initialiser le compteur au chargement de la page
+        updateCartCount();
+
+        // Système de traduction
+        const translations = {
+            fr: {
+                home: "Accueil",
+                collection: "Collection",
+                about: "À propos",
+                contact: "Contact",
+                cart: "Panier",
+                pageTitle: "Contact",
+                pageSubtitle: "Entrez en contact avec l'équipe Grau",
+                contactInfoTitle: "Informations de contact",
+                addressTitle: "Adresse",
+                phoneHeading: "Téléphone",
+                emailHeading: "Email",
+                socialHeading: "Réseaux sociaux",
+                hoursTitle: "Horaires d'ouverture",
+                mondayFriday: "Lundi - Vendredi",
+                saturday: "Samedi",
+                sunday: "Dimanche",
+                closed: "Fermé",
+                formTitle: "Envoyez-nous un message",
+                formSubtitle: "Découvrez notre collection exclusive ou faites une demande personnalisée. Notre équipe vous répondra sous 24h.",
+                firstNameLabel: "Prénom",
+                firstNamePlaceholder: "Votre prénom",
+                lastNameLabel: "Nom",
+                lastNamePlaceholder: "Votre nom",
+                emailLabel: "Email",
+                emailPlaceholder: "votre@email.com",
+                phoneLabel: "Téléphone",
+                phonePlaceholder: "+33 6 00 00 00 00",
+                subjectLabel: "Sujet",
+                subjectPlaceholder: "Sujet de votre demande",
+                messageLabel: "Message",
+                messagePlaceholder: "Votre message...",
+                sendBtn: "Envoyer le message",
+                thankYou: "Merci pour votre message ! Nous vous répondrons bientôt."
+            },
+            en: {
+                home: "Home",
+                collection: "Collection",
+                about: "About",
+                contact: "Contact",
+                cart: "Cart",
+                pageTitle: "Contact",
+                pageSubtitle: "Get in touch with the Grau team",
+                contactInfoTitle: "Contact Information",
+                addressTitle: "Address",
+                phoneHeading: "Phone",
+                emailHeading: "Email",
+                socialHeading: "Social Media",
+                hoursTitle: "Opening Hours",
+                mondayFriday: "Monday - Friday",
+                saturday: "Saturday",
+                sunday: "Sunday",
+                closed: "Closed",
+                formTitle: "Send us a message",
+                formSubtitle: "Explore our exclusive collection or request a bespoke service. Our team replies within 24 hours.",
+                firstNameLabel: "First name",
+                firstNamePlaceholder: "Your first name",
+                lastNameLabel: "Last name",
+                lastNamePlaceholder: "Your last name",
+                emailLabel: "Email",
+                emailPlaceholder: "your@email.com",
+                phoneLabel: "Phone",
+                phonePlaceholder: "+33 6 00 00 00 00",
+                subjectLabel: "Subject",
+                subjectPlaceholder: "Subject of your request",
+                messageLabel: "Message",
+                messagePlaceholder: "Describe your request in detail. Feel free to mention style preferences, sizing or any specific questions...",
+                sendBtn: "Send message",
+                thankYou: "Thank you for your message! We will get back to you soon."
+            }
+        };
+
+        let currentLanguage = localStorage.getItem('language') || 'en';
+
+        function switchLanguage(lang) {
+            currentLanguage = lang;
+            localStorage.setItem('language', lang);
+            
+            // Mettre à jour les boutons de langue
+            document.querySelectorAll('.language-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[onclick="switchLanguage('${lang}')"]`).classList.add('active');
+            
+            // Mettre à jour le contenu de la page
+            updatePageLanguage();
+        }
+
+        function updatePageLanguage() {
+            const lang = translations[currentLanguage];
+            
+            // Mettre à jour la navbar
+            document.querySelectorAll('.nav-links a')[0].textContent = lang.home;
+            document.querySelectorAll('.nav-links a')[1].textContent = lang.collection;
+            document.querySelectorAll('.nav-links a')[2].textContent = lang.about;
+            document.querySelectorAll('.nav-links a')[3].textContent = lang.contact;
+            const cartLabel = document.querySelector('.nav-cart-label');
+            if (cartLabel) cartLabel.textContent = lang.cart;
+            
+            // Mettre à jour le titre et sous-titre
+            const pageTitle = document.querySelector('.section-title');
+            const pageSubtitle = document.querySelector('.section-subtitle');
+            if (pageTitle) pageTitle.textContent = lang.pageTitle;
+            if (pageSubtitle) pageSubtitle.textContent = lang.pageSubtitle;
+            
+            // Mettre à jour les titres de sections
+            const contactInfoTitle = document.querySelector('.contact-info h3');
+            if (contactInfoTitle) contactInfoTitle.textContent = lang.contactInfoTitle;
+
+            const contactHeadings = document.querySelectorAll('.contact-item h4');
+            if (contactHeadings[0]) contactHeadings[0].textContent = lang.addressTitle;
+            if (contactHeadings[1]) contactHeadings[1].textContent = lang.phoneHeading;
+            if (contactHeadings[2]) contactHeadings[2].textContent = lang.emailHeading;
+            if (contactHeadings[3]) contactHeadings[3].textContent = lang.socialHeading;
+
+            const hoursTitle = document.querySelector('.office-hours h4');
+            if (hoursTitle) hoursTitle.textContent = lang.hoursTitle;
+
+            const hourLabels = document.querySelectorAll('.hours-list .hour-item span:first-child');
+            if (hourLabels[0]) hourLabels[0].textContent = lang.mondayFriday;
+            if (hourLabels[1]) hourLabels[1].textContent = lang.saturday;
+            if (hourLabels[2]) hourLabels[2].textContent = lang.sunday;
+
+            const hourValues = document.querySelectorAll('.hours-list .hour-item span:last-child');
+            if (hourValues[2]) hourValues[2].textContent = lang.closed;
+
+            // Mettre à jour le formulaire
+            const formTitle = document.querySelector('.form-title');
+            const formSubtitle = document.querySelector('.form-subtitle');
+            if (formTitle) formTitle.textContent = lang.formTitle;
+            if (formSubtitle) formSubtitle.textContent = lang.formSubtitle;
+
+            // Mettre à jour les labels du formulaire
+            const firstNameLabel = document.querySelector('label[for="firstName"]');
+            const lastNameLabel = document.querySelector('label[for="lastName"]');
+            const emailLabel = document.querySelector('label[for="email"]');
+            const phoneLabel = document.querySelector('label[for="phone"]');
+            const subjectLabel = document.querySelector('label[for="subject"]');
+            const messageLabel = document.querySelector('label[for="message"]');
+            
+            if (firstNameLabel) firstNameLabel.textContent = lang.firstNameLabel;
+            if (lastNameLabel) lastNameLabel.textContent = lang.lastNameLabel;
+            if (emailLabel) emailLabel.textContent = lang.emailLabel;
+            if (phoneLabel) phoneLabel.textContent = lang.phoneLabel;
+            if (subjectLabel) subjectLabel.textContent = lang.subjectLabel;
+            if (messageLabel) messageLabel.textContent = lang.messageLabel;
+            
+            // Mettre à jour les placeholders
+            const firstNameInput = document.getElementById('firstName');
+            const lastNameInput = document.getElementById('lastName');
+            const emailInput = document.getElementById('email');
+            const phoneInput = document.getElementById('phone');
+            const subjectInput = document.getElementById('subject');
+            const messageInput = document.getElementById('message');
+            
+            if (firstNameInput) firstNameInput.placeholder = lang.firstNamePlaceholder;
+            if (lastNameInput) lastNameInput.placeholder = lang.lastNamePlaceholder;
+            if (emailInput) emailInput.placeholder = lang.emailPlaceholder;
+            if (phoneInput) phoneInput.placeholder = lang.phonePlaceholder;
+            if (subjectInput) subjectInput.placeholder = lang.subjectPlaceholder;
+            if (messageInput) messageInput.placeholder = lang.messagePlaceholder;
+            
+            // Mettre à jour le bouton d'envoi
+            const sendBtn = document.querySelector('.submit-button');
+            if (sendBtn) sendBtn.textContent = lang.sendBtn;
+        }
+
+        // Mettre à jour la fonction de soumission du formulaire
+        document.addEventListener('DOMContentLoaded', () => {
+            const contactForm = document.getElementById('contactForm');
+            if (contactForm) {
+                contactForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const lang = translations[currentLanguage];
+                    alert(lang.thankYou);
+                    contactForm.reset();
+                });
+            }
+            
+            // Charger la langue sauvegardée
+            updatePageLanguage();
+            
+            // Mettre à jour le bouton de langue actif
+            document.querySelectorAll('.language-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[onclick="switchLanguage('${currentLanguage}')"]`).classList.add('active');
+        });
+    </script>
+    
+</body>
+</html>
