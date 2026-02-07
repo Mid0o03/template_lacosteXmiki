@@ -1,38 +1,86 @@
-# LACOSTE X MIKI
-<div align="center">
-  <img src="lacosteXmiki.gif" width="100%" alt="Lacoste x Miki Banner" />
-  
-  <br />
+# LACOSTE X MIKI - Premium E-Commerce Template
 
-  ![HTML5](https://img.shields.io/badge/HTML5-black?style=for-the-badge&logo=html5&logoColor=white)
-  ![CSS3](https://img.shields.io/badge/CSS3-black?style=for-the-badge&logo=css3&logoColor=white)
-  ![JavaScript](https://img.shields.io/badge/JavaScript-black?style=for-the-badge&logo=javascript&logoColor=white)
-  
-</div>
+![LACOSTE X MIKI](./public/images/SLIDER/POLAROI-POLO.png)
 
-<br />
+A high-end, commercial-grade React template inspired by the collaboration between Lacoste and Miki. Designed for luxury brands, fashion collections, and exclusive drops.
 
-## ⚡ About The Project
-A premium fashion e-commerce template featuring the exclusive 'Graou' limited edition collection, blending Lacoste's heritage with Miki's contemporary style. This static web application delivers an immersive user experience through custom animations, responsive design, and bilingual support (EN/FR).
+## 🚀 Features
 
-## ✨ Key Features
-* 🌐 **Internationalization (i18n) :** Native support for English and French with seamless language switching and persistent preferences.
-* 🎨 **Interactive Visuals :** Features a dynamic halftone canvas background animation and a 3D rotating banner slider for product showcasing.
-* 🛒 **Shopping Experience :** Includes a fully functional cart system using localStorage, with a responsive product grid and dedicated collection pages.
+-   **Premium Design**: Glassmorphism, 3D-style sliders, and smooth animations (GSAP-ready).
+-   **White-Label**: Fully customizable branding and content via configuration files.
+-   **E-Commerce Ready**: 
+    -   Integrated with **Stripe** for secure payments.
+    -   **Supabase** authentication (Login, Register, Profile).
+    -   Shopping Cart with persistent state.
+-   **Responsive**: Optimized for all devices (Mobile, Tablet, Desktop).
+-   **SEO Optimized**: Meta tags, Open Graph, and Twitter Cards included.
+-   **Tech Stack**: React, Vite, TypeScript, SCSS.
 
-## 🛠️ Built With
-* **Front-end :** HTML5, CSS3, JavaScript (Vanilla)
-* **Back-end :** N/A (Static Website)
+## 📦 Quick Start
 
-## 🚀 Getting Started
-```bash
-# Clone the repo
-git clone https://github.com/Mid0o03/lacosteXmiki.git
+Prerequisites: Node.js (v16+) installed.
 
-# No installation needed (Static Project)
-# Simply open the file directly
-open index.html
+1.  **Unzip & Install**
+    ```bash
+    cd template-lacostexmiki
+    npm install
+    ```
 
-# OR run with a local static server
-npx serve .
-```
+2.  **Configuration**
+    Copy `.env.example` to `.env` and add your keys (see [INSTALLATION.md](./INSTALLATION.md)).
+    ```bash
+    cp .env.example .env
+    ```
+
+3.  **Run Locally**
+    ```bash
+    npm run dev
+    ```
+    Visit `http://localhost:5173`.
+
+## 📚 Documentation
+
+-   [📥 Installation Guide](./INSTALLATION.md)
+-   [🎨 Customization Guide (White-Label)](./CUSTOMIZATION.md)
+-   [🚀 Deployment Guide](./DEPLOYMENT.md)
+-   [📜 Changelog](./CHANGELOG.md)
+
+## 📄 License
+
+**Commercial License**.
+You are free to use this template for unlimited client projects.
+Redistribution or resale of the template source code "as-is" is strictly prohibited.
+Support included for 6 months.
+
+---
+
+# Version Française
+
+## 🚀 Fonctionnalités
+
+-   **Design Premium** : Glassmorphism, slider 3D, animations fluides.
+-   **Marque Blanche** : Branding et contenu 100% configurables.
+-   **E-Commerce** : Paiements Stripe, Auth Supabase, Panier.
+-   **SEO Optimisé** : Prêt pour le référencement.
+
+## 📦 Démarrage Rapide
+
+1.  **Installation**
+    Décompressez le fichier zip et ouvrez le dossier dans votre terminal.
+    ```bash
+    npm install
+    ```
+
+2.  **Configuration**
+    Copiez `.env.example` vers `.env`.
+
+3.  **Lancer**
+    ```bash
+    npm run dev
+    ```
+
+Pour plus de détails, consultez les guides dans `docs/` ou les fichiers `.md` à la racine.
+
+---
+
+**Author**: MidoDev (<contact@midodev.fr>)
